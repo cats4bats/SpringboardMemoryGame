@@ -58,6 +58,7 @@ function createDivsForColors(colorArray) {
 }
 
 let cardCounter = 0;
+let score =0;
 // TODO: Implement this function!
 function handleCardClick(event) {
   // you can use event.target to see which element was clicked
@@ -75,6 +76,7 @@ function handleCardClick(event) {
       console.log('adding flipped class');
     }
     if(cardCounter === 2){
+      document.querySelector('#score').innerText='Score: ' + score;
       console.log("2 cards were picked")
       setTimeout(function(){
         let cards = document.querySelectorAll('.flipped');
@@ -84,10 +86,12 @@ function handleCardClick(event) {
           console.log('adding match class');
           cards[0].classList.add('match');
           cards[1].classList.add('match');
+          score ++;
         }else{
           console.log('this is not a match setting bg to white');
           cards[0].style.backgroundColor = 'white';
           cards[1].style.backgroundColor = 'white';
+          score ++;
         }
         console.log('removing flipped class');
         cards[0].classList.remove('flipped');
