@@ -2,7 +2,7 @@ const gameContainer = document.getElementById("game");
 
 const COLORS = [];
 
-for (i=0; i<16; i=i+2){
+for (i=0; i<12; i=i+2){
   newColor = Math.floor(Math.random()*16777215).toString(16);
   COLORS[i]="#"+newColor;
   COLORS[i+1]="#"+newColor;
@@ -54,9 +54,16 @@ function createDivsForColors(colorArray) {
 
 let cardCounter = 0;
 let score =0;
+let bestScore = null;
+
+if(localStorage.getItem('best')){
+  document.querySelector('#bestscore').innerText = "Best Score: " + localStorage.getItem('best');
+}
+
 // TODO: Implement this function!
 function handleCardClick(event) {
   // you can use event.target to see which element was clicked
+  
     if(event.target.classList.contains('match')){
       console.log('card is part of a match');
       return;
@@ -71,7 +78,6 @@ function handleCardClick(event) {
       console.log('adding flipped class');
     }
     if(cardCounter === 2){
-      document.querySelector('#score').innerText='Score: ' + score;
       console.log("2 cards were picked")
       setTimeout(function(){
         let cards = document.querySelectorAll('.flipped');
@@ -81,22 +87,39 @@ function handleCardClick(event) {
           console.log('adding match class');
           cards[0].classList.add('match');
           cards[1].classList.add('match');
-          score ++;
+          if(document.querySelectorAll('.match').length === 12){
+            alert('winner');
+            if(localStorage.getItem('best')){
+              if(score<localStorage.getItem('best')){
+                localStorage.setItem('best', score);
+              }
+            }else{
+              localStorage.setItem('best', score);
+            }
+          }
         }else{
           console.log('this is not a match setting bg to white');
           cards[0].style.backgroundColor = 'white';
           cards[1].style.backgroundColor = 'white';
-          score ++;
         }
         console.log('removing flipped class');
         cards[0].classList.remove('flipped');
         cards[1].classList.remove('flipped');
         console.log('no cards flipped');
         cardCounter = 0;
+        score++;
+        document.querySelector('#score').innerText='Score: ' + score;
       }, 1000)
     }
 
     console.log(cardCounter);
+
+    
 }
+
+document.querySelector('#restartBtn').addEventListener('click', function(e){
+  location.reload();
+  return false;
+})
 // when the DOM loads
 createDivsForColors(shuffledColors);
