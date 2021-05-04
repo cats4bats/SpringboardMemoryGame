@@ -1,17 +1,12 @@
 const gameContainer = document.getElementById("game");
 
-const COLORS = [
-  "red",
-  "blue",
-  "green",
-  "orange",
-  "purple",
-  "red",
-  "blue",
-  "green",
-  "orange",
-  "purple"
-];
+const COLORS = [];
+
+for (i=0; i<16; i=i+2){
+  newColor = Math.floor(Math.random()*16777215).toString(16);
+  COLORS[i]="#"+newColor;
+  COLORS[i+1]="#"+newColor;
+}
 
 // here is a helper function to shuffle an array
 // it returns the same array with values shuffled
